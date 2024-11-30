@@ -48,16 +48,20 @@ Este projeto é parte do Tech Challenge 4 da POS Tech FIAP, focado em visão com
 - `ActivityClassifier`: Classifica atividades nas imagens
 
 ## 🚀 Como Executar
-bash
 Python 3.8+ requerido
+```bash
 python -m venv venv
 source venv/bin/activate # Linux/Mac
-ou
-.\venv\Scripts\activate # Windows
-Instalar dependências
-pip install -r requirements.txt
-
 ```
+ou
+```bash
+.\venv\Scripts\activate # Windows
+```
+Instalar dependências
+```bash
+pip install -r requirements.txt
+```
+
 ### Execução
 ```bash
 python main.py --video path/to/video.mp4 --fps 2 --exec-num 1
