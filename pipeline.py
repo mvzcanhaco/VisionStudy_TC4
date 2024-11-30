@@ -18,7 +18,6 @@ import shutil  # Importação adicionada
 from activity_classifier import ActivityClassifier
 from frames_extractor import ExtractorConfig, FrameExtractor
 from sentiment_analyzer import HybridSentimentAnalyzer
-from person_detector import PersonDetector
 from person_tracker import PersonTracker
 
 
@@ -112,7 +111,7 @@ def parse_arguments() -> PipelineConfig:
                         help='Path to the input video file')
 
     parser.add_argument('--fps',
-                        default=5,
+                        default=2,
                         type=int,
                         help='Number of frames per second to extract')
 
@@ -147,12 +146,12 @@ def parse_arguments() -> PipelineConfig:
 
     parser.add_argument('--conf-threshold',
                         type=float,
-                        default=0.5,
+                        default=0.6,
                         help='Confidence threshold for detections')
 
     parser.add_argument('--iou-threshold',
                         type=float,
-                        default=0.3,
+                        default=0.4,
                         help='IOU threshold for tracking')
 
     parser.add_argument('--max-age',
@@ -162,7 +161,7 @@ def parse_arguments() -> PipelineConfig:
 
     parser.add_argument('--n-init',
                         type=int,
-                        default=0,
+                        default=1,
                         help='Number of frames for track initialization')
 
     parser.add_argument('--nn-budget',
@@ -197,7 +196,6 @@ class Pipeline:
         self.video_processor: Optional[FrameExtractor] = None
         self.activity_classifier: Optional[ActivityClassifier] = None
         self.person_tracker: Optional[PersonTracker] = None
-        self.person_detector: Optional[PersonDetector] = None
         self.sentiment_analyzer: Optional[HybridSentimentAnalyzer] = None
         self.output_base_dir = Path(f"Outputs/Exec_{config.execution_number}")
         self.frame_data_list: List[FrameData] = []
@@ -230,12 +228,7 @@ class Pipeline:
                 device = 'mps'
             else:
                 device = 'cpu'
-            self.person_detector = PersonDetector(
-                detection_model=self.config.detection_model,
-                device=device,
-                conf_threshold=self.config.conf_threshold,
-                iou_threshold=self.config.iou_threshold
-            )
+
 
             if not self.config.skip_tracking:
                 self.logger.info(f"Initializing person tracker")
@@ -606,24 +599,4 @@ class Pipeline:
             raise
 
 
-def main():
-    try:
-        config = parse_arguments()
 
-        if not config.video_path.exists():
-            print(f"Error: Video file {config.video_path} does not exist")
-            sys.exit(1)
-
-        pipeline = Pipeline(config)
-        pipeline.initialize_components()
-        pipeline.run()
-
-    except Exception as e:
-        print(f"Error during execution: {str(e)}")
-        sys.exit(1)
-
-    print("Pipeline completed successfully!")
-
-
-if __name__ == "__main__":
-    main()

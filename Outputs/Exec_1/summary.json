@@ -1,0 +1,27 @@
+{
+    "total_frames_in_video": 3326,
+    "total_frames_extracted": 222,
+    "total_frames_analyzed": 222,
+    "total_detections": 331,
+    "total_people_tracked": 11,
+    "activity_counts": {
+        "phone_usage": 7,
+        "reading": 6,
+        "group_activity": 30,
+        "making_funny": 46,
+        "dancing": 8,
+        "anomaly": 1,
+        "standing": 23,
+        "resting": 12,
+        "computer_work": 20,
+        "medical": 36
+    },
+    "sentiment_counts": {
+        "neutral": 82,
+        "sad": 99,
+        "angry": 23,
+        "fear": 48,
+        "happy": 37,
+        "surprise": 8
+    }
+}
